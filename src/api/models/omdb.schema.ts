@@ -19,7 +19,7 @@ export interface TitleSearchQuery {
     /** Year of release */
     y?: number;
     /** Return movie or series */
-    type?: "movie" | "series";
+    type?: "movie" | "series" | "episode";
     /** The response type to return */
     r?: "json" | "xml";
     /** Page number to return */
