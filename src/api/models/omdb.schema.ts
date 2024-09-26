@@ -17,7 +17,7 @@ export interface TitleSearchQuery {
     /** Title of movie or series */
     s: string;
     /** Year of release */
-    y?: number;
+    y?: string;
     /** Return movie or series */
     type?: "movie" | "series" | "episode";
     /** The response type to return */
