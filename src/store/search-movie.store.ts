@@ -2,8 +2,6 @@ import { TitleSearchQuery, TitleSearchResponse } from '@api/models/omdb.schema';
 import { OmdbApi } from '@api/omdb.api';
 import { CrudSlice, StateSlice } from "@store/store.types";
 import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
-import { devtoolsConfig } from './store.utils';
 
 type SearchFilter = Omit<TitleSearchQuery, 's' | 'r' | 'callback'>;
 
@@ -26,24 +24,21 @@ const initialState: SearchMoviesStore = {
 const useSearchMoviesStore = create<
   StateSlice<SearchMoviesStore, SearchMoviesActions>
 >()(
-  devtools(
-    (set) => ({
-      ...initialState,
-      actions: {
-        searchMovieByTitle: async (title: string, filter?: SearchFilter) => {
-          set({ loading: true }, false, 'SEARCH_MOVIE_BY_TITLE');
-          try {
-            const result = await OmdbApi.titleSearch({ s: title, ...filter });
-            set({ loading: false, data: result.Search, totalResults: +result.totalResults }, false, 'SEARCH_MOVIE_BY_TITLE_SUCCESS');
-            
-          } catch (error: any) {
-            set({ loading: false, error: error.message }, false, 'SEARCH_MOVIE_BY_TITLE_ERROR');
-          }
-        },
+  (set) => ({
+    ...initialState,
+    actions: {
+      searchMovieByTitle: async (title: string, filter?: SearchFilter) => {
+        set({ loading: true });
+        try {
+          const result = await OmdbApi.titleSearch({ s: title, ...filter });
+          set({ loading: false, data: result.Search, totalResults: +result.totalResults });
+          
+        } catch (error: any) {
+          set({ loading: false, error: error.message });
+        }
       },
-    }),
-    devtoolsConfig("SearchMoviesStore")
-  )
+    },
+  })
 );
 
 export default useSearchMoviesStore;

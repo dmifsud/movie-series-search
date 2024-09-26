@@ -1,25 +1,21 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useRef } from 'react';
 import './App.css';
-import { OmdbApi } from './api/omdb.api';
 import useSearchMoviesStore from '@store/search-movie.store';
 import useGetMovieStore from '@store/get-movie.store';
-import useMovieWishlistStore from '@store/movie-wishlist.store';
+import useMovieWatchlistStore from '@store/movie-watchlist.store';
 
 function TempMovie() {
-  const { data, loading, inWishlist } = useGetMovieStore();
-  const { actions } = useMovieWishlistStore.getState();
+  const { data, loading, inWatchlist } = useGetMovieStore();
+  const { actions } = useMovieWatchlistStore.getState();
 
   console.log('render movie', data);
-
-  const removeMovieFromWishlist = useCallback(actions.removeMovieFromWishlist, []);
-  const setMovieToWishlist = useCallback(actions.setMovieToWishlist, []);
 
 
   return (
     <div>
       {loading && <span>Fetching Movie&hellip;</span>}
       {data && <>{JSON.stringify(data)}</>}
-      {data && <><button onClick={() => inWishlist ? removeMovieFromWishlist(data.imdbID) : setMovieToWishlist(data)}>{inWishlist ? 'Remove from wishlist' : 'Add to wishlist'}</button></>}
+      {data && <><button onClick={() => inWatchlist ? actions.removeMovieFromWatchlist(data.imdbID) : actions.setMovieToWatchlist(data)}>{inWatchlist ? 'Remove from watchlist' : 'Add to watchlist'}</button></>}
     </div>
   );
 }
@@ -64,20 +60,20 @@ function SearchMovie() {
 
 function App() {
 
-  const { actions } = useSearchMoviesStore.getState();
+  // const { actions } = useSearchMoviesStore.getState();
 
-  useEffect(() => {
-    // OmdbApi.getTitle('empire strikes back').then(result => {
-    //   console.log(result);
-    //   console.log(result.Ratings?.map(rating => rating.Value).join(', '));
-    // });
-    setTimeout(() => {
-      actions.searchMovieByTitle('fight club');
+  // useEffect(() => {
+  //   // OmdbApi.getTitle('empire strikes back').then(result => {
+  //   //   console.log(result);
+  //   //   console.log(result.Ratings?.map(rating => rating.Value).join(', '));
+  //   // });
+  //   // setTimeout(() => {
+  //   //   actions.searchMovieByTitle('fight club');
 
-    }, 1000);
+  //   // }, 1000);
 
 
-  }, [actions]);
+  // }, [actions]);
 
   console.log('render app');
 
