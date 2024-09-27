@@ -1,5 +1,6 @@
 import { TitleSearchQuery } from '@api/models/omdb.schema';
 import SearchMovie, { SearchMovieType } from '@components/SearchMovie';
+import Button from '@components/ui/Button';
 import BookmarkHeart from '@components/ui/icons/BookmarkHeart';
 import BookmarkIcon from '@components/ui/icons/BookmarkIcon';
 import useQueryParams from '@hooks/useQueryParams';
@@ -21,17 +22,17 @@ function TempMovie() {
             {data && <>{JSON.stringify(data)}</>}
             {data && (
                 <>
-                    <button
+                    <Button
+                        className="inline-flex gap-2 items-center"
                         onClick={() =>
                             inWatchlist
                                 ? actions.removeMovieFromWatchlist(data.imdbID)
                                 : actions.setMovieToWatchlist(data)
                         }
                     >
-                        {inWatchlist
-                            ? 'Remove from watchlist'
-                            : 'Add to watchlist'}
-                    </button>
+                        <BookmarkIcon checked={!!inWatchlist} />
+                        Watchlist
+                    </Button>
                 </>
             )}
         </div>
