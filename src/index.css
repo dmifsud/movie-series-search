@@ -2,6 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+/* .custom-scrollbar {
+    scrollbar-color: #c2c2c2 transparent;
+} */
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #c2c2c2;
+    border-radius: 0; /* Remove rounded corners */
+}
+
 /* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
