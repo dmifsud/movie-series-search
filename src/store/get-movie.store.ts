@@ -3,7 +3,8 @@ import { OmdbApi } from '@api/omdb.api';
 import { CrudSlice, StateSlice } from '@store/store.types';
 import { create } from 'zustand';
 import useMovieWatchlistStore from './movie-watchlist.store';
-import movieMock from './movie.mock.json';
+import updateQueryString from '@utils/updateQueryString';
+import useSearchMoviesStore from './search-movie.store';
 
 export interface GetMovieStore extends CrudSlice<MovieModel> {
     inWatchlist: boolean | null;
@@ -35,6 +36,8 @@ const useGetMovieStore = create<StateSlice<GetMovieStore, GetMovieActions>>()(
                         .getState()
                         .movies.some((movie) => movie.id === imdbID);
                     set({ loading: false, data: result, inWatchlist });
+                    const query = useSearchMoviesStore.getState().query ?? {};
+                    updateQueryString({ ...query, imdbid: imdbID });
                 } catch (error: any) {
                     set({ loading: false, error: error.message });
                 }

@@ -5,6 +5,7 @@ import BookmarkIcon from './ui/icons/BookmarkIcon';
 import { Fragment } from 'react/jsx-runtime';
 import { MovieModel } from '@api/models/omdb.schema';
 import { useShallow } from 'zustand/shallow';
+import { useEffect } from 'react';
 
 function WatchlistButton({
     movie,
@@ -28,10 +29,20 @@ function WatchlistButton({
     );
 }
 
-function Movie() {
-    const { movie, loading } = useGetMovieStore(
-        useShallow((state) => ({ movie: state.data, loading: state.loading }))
+function Movie({ movieId }: { movieId?: string }) {
+    const { movie, loading, getMovieById } = useGetMovieStore(
+        useShallow((state) => ({
+            movie: state.data,
+            loading: state.loading,
+            getMovieById: state.actions.getMovieByImdbID,
+        }))
     );
+
+    useEffect(() => {
+        if (movieId) {
+            getMovieById(movieId);
+        }
+    }, [movieId, getMovieById]);
 
     console.log('render movie', movie);
 

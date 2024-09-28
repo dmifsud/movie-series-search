@@ -42,7 +42,7 @@ function SearchPage() {
                     <MovieList />
                 </div>
                 <div className="box-border flex-1 custom-scrollbar">
-                    <Movie />
+                    <Movie movieId={params['imdbid']} />
                 </div>
             </section>
         </div>

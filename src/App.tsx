@@ -1,11 +1,11 @@
-import './App.css'
-import { Route, Router, Switch } from 'wouter'
-import SearchPage from './pages/SearchPage'
-import WatchListPage from './pages/WatchListPage'
+import './App.css';
+import { Route, Router, Switch } from 'wouter';
+import SearchPage from './pages/SearchPage';
+import WatchListPage from './pages/WatchListPage';
 
-let baseUrl = ''
+let baseUrl = '';
 if (import.meta.env.MODE === 'production') {
-    baseUrl = '/movie-series-search'
+    baseUrl = '/movie-series-search';
 }
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
 
     // }, [actions]);
 
-    console.log('render app')
+    console.log('render app');
 
     return (
         <>
@@ -34,7 +34,7 @@ function App() {
                 </Switch>
             </Router>
         </>
-    )
+    );
 }
 
-export default App
+export default App;
