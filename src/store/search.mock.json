@@ -1,0 +1,76 @@
+{
+    "Search": [
+        {
+            "Title": "Castle in the Sky",
+            "Year": "1986",
+            "imdbID": "tt0092067",
+            "Type": "movie",
+            "Poster": "https://m.media-amazon.com/images/M/MV5BYTJhNWIxNmUtYThlYy00NGNmLWE4NTItZWY5MmI4ZWNhMTNkXkEyXkFqcGc@._V1_SX300.jpg"
+        },
+        {
+            "Title": "The Man in the High Castle",
+            "Year": "2015–2019",
+            "imdbID": "tt1740299",
+            "Type": "series",
+            "Poster": "https://m.media-amazon.com/images/M/MV5BZWEwNzQ4NzUtMWRmYS00NDdiLTg5NDItODA5M2M4YTM0ZTE2XkEyXkFqcGdeQXVyMTAzNjU2NjM1._V1_SX300.jpg"
+        },
+        {
+            "Title": "The Last Castle",
+            "Year": "2001",
+            "imdbID": "tt0272020",
+            "Type": "movie",
+            "Poster": "https://m.media-amazon.com/images/M/MV5BMzZlMTllYjMtZmQ0NS00ZGJkLTg1ODItODM2MmViYjlmNzcyXkEyXkFqcGdeQXVyNDE5MTU2MDE@._V1_SX300.jpg"
+        },
+        {
+            "Title": "The Glass Castle",
+            "Year": "2017",
+            "imdbID": "tt2378507",
+            "Type": "movie",
+            "Poster": "https://m.media-amazon.com/images/M/MV5BMTY2Nzk0MDE3Nl5BMl5BanBnXkFtZTgwOTI0ODc0MjI@._V1_SX300.jpg"
+        },
+        {
+            "Title": "Lupin III: The Castle of Cagliostro",
+            "Year": "1979",
+            "imdbID": "tt0079833",
+            "Type": "movie",
+            "Poster": "https://m.media-amazon.com/images/M/MV5BYzYyNjg3OTctNzA2ZS00NjkzLWE4MmYtZDAzZWQ0NzkyMTJhXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_SX300.jpg"
+        },
+        {
+            "Title": "The Castle",
+            "Year": "1997",
+            "imdbID": "tt0118826",
+            "Type": "movie",
+            "Poster": "https://m.media-amazon.com/images/M/MV5BMDM4MDFiMjEtOWFhOC00M2RjLWE2NDItZGZlZjVhOGVjZWExXkEyXkFqcGdeQXVyNjMwMjk0MTQ@._V1_SX300.jpg"
+        },
+        {
+            "Title": "We Have Always Lived in the Castle",
+            "Year": "2018",
+            "imdbID": "tt5952138",
+            "Type": "movie",
+            "Poster": "https://m.media-amazon.com/images/M/MV5BNDdkY2ZkYmYtOWYxNi00Mzk4LWI1YTctN2Q0Mzc0NzBiMDU3XkEyXkFqcGdeQXVyNTE5MTM1Mw@@._V1_SX300.jpg"
+        },
+        {
+            "Title": "I Capture the Castle",
+            "Year": "2003",
+            "imdbID": "tt0300015",
+            "Type": "movie",
+            "Poster": "https://m.media-amazon.com/images/M/MV5BMmZkOTQ5NDgtMjBmYS00Y2YzLTkwOWMtYWQ4ZWZiMmQ1ZmUyXkEyXkFqcGc@._V1_SX300.jpg"
+        },
+        {
+            "Title": "The Castle",
+            "Year": "1997",
+            "imdbID": "tt0120075",
+            "Type": "movie",
+            "Poster": "https://m.media-amazon.com/images/M/MV5BZGM0MzU5YjMtNzlkYS00ZjM1LThkOGMtMGUyZGI1Mjk2NGI3XkEyXkFqcGdeQXVyNDUwNzc3MTg@._V1_SX300.jpg"
+        },
+        {
+            "Title": "The Swan Princess: Escape from Castle Mountain",
+            "Year": "1997",
+            "imdbID": "tt0120254",
+            "Type": "movie",
+            "Poster": "https://m.media-amazon.com/images/M/MV5BMTc4NDU2Njc1NV5BMl5BanBnXkFtZTgwODQ4MjgwMzE@._V1_SX300.jpg"
+        }
+    ],
+    "totalResults": "336",
+    "Response": "True"
+}

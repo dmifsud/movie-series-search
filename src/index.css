@@ -2,12 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-/* .custom-scrollbar {
-    scrollbar-color: #c2c2c2 transparent;
-} */
+.custom-scrollbar {
+    overflow-y: auto;
+}
 
 .custom-scrollbar::-webkit-scrollbar {
-    width: 8px;
+    width: 10px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
@@ -16,7 +16,8 @@
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
     background-color: #c2c2c2;
-    border-radius: 0; /* Remove rounded corners */
+    /* background: transparent; */
+    border-radius: 0;
 }
 
 /* clears the 'X' from Chrome */

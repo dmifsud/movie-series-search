@@ -1,0 +1,36 @@
+{
+    "Title": "The Castle",
+    "Year": "1997",
+    "Rated": "R",
+    "Released": "07 May 1999",
+    "Runtime": "85 min",
+    "Genre": "Comedy, Drama",
+    "Director": "Rob Sitch",
+    "Writer": "Santo Cilauro, Tom Gleisner, Jane Kennedy",
+    "Actors": "Michael Caton, Anne Tenney, Stephen Curry",
+    "Plot": "A working-class family from Melbourne, Australia fights city hall after being told they must vacate their beloved family home to allow for infrastructural expansion.",
+    "Language": "English",
+    "Country": "Australia",
+    "Awards": "2 wins & 11 nominations",
+    "Poster": "https://m.media-amazon.com/images/M/MV5BMDM4MDFiMjEtOWFhOC00M2RjLWE2NDItZGZlZjVhOGVjZWExXkEyXkFqcGdeQXVyNjMwMjk0MTQ@._V1_SX300.jpg",
+    "Ratings": [
+        {
+            "Source": "Internet Movie Database",
+            "Value": "7.6/10"
+        },
+        {
+            "Source": "Rotten Tomatoes",
+            "Value": "87%"
+        }
+    ],
+    "Metascore": "N/A",
+    "imdbRating": "7.6",
+    "imdbVotes": "17,721",
+    "imdbID": "tt0118826",
+    "Type": "movie",
+    "DVD": "N/A",
+    "BoxOffice": "$877,621",
+    "Production": "N/A",
+    "Website": "N/A",
+    "Response": "True"
+}

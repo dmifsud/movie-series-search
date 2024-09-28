@@ -8,7 +8,7 @@ function MovieListItem({ movie, ...htmlAttr }: MovieListItemProps) {
     return (
         <div
             {...htmlAttr}
-            className="flex gap-3 flex-row px-6 py-8 cursor-pointer hover:bg-primary-light border-b-2 border-b-secondary border-solid"
+            className="flex gap-3 flex-row p-8 cursor-pointer hover:bg-primary-light border-b-2 border-b-secondary border-solid"
         >
             <div className="min-w-[20%]">
                 <div className="w-full relative pt-[100%] overflow-hidden rounded-md">
