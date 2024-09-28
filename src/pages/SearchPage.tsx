@@ -3,10 +3,12 @@ import SearchMovie, { SearchMovieType } from '@components/SearchMovie';
 import Button from '@components/ui/Button';
 import BookmarkHeart from '@components/ui/icons/BookmarkHeart';
 import BookmarkIcon from '@components/ui/icons/BookmarkIcon';
+import useIntersection from '@hooks/useIntersection';
 import useQueryParams from '@hooks/useQueryParams';
 import useGetMovieStore from '@store/get-movie.store';
 import useMovieWatchlistStore from '@store/movie-watchlist.store';
 import useSearchMoviesStore from '@store/search-movie.store';
+import React from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'wouter';
 
@@ -55,7 +57,11 @@ function TempMovies() {
     console.log('render movies', { data, loading, totalResults });
     return (
         <div>
-            {totalResults !== null && `${totalResults} RESULTS`}
+            {totalResults !== null && (
+                <div className="px-6 py-8 uppercase sticky top-0 bg-white">
+                    {isNaN(totalResults) ? 0 : totalResults} Results
+                </div>
+            )}
             {data?.map((movie) => (
                 <div
                     onClick={() => getMovieByImdbID(movie.imdbID)}
@@ -65,17 +71,23 @@ function TempMovies() {
                 </div>
             ))}
             {loading && <span>Loading&hellip;</span>}
-            {canLoadMore && (
-                <button
-                    onClick={() => searchMore()}
-                    className="mt-10 mb-10 bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 transition duration-300"
-                >
-                    Load more
-                </button>
-            )}
+            {canLoadMore && !loading && <DummyElement isVisible={searchMore} />}
         </div>
     );
 }
+
+export const DummyElement = ({ isVisible }: { isVisible: () => void }) => {
+    const triggerRef = useRef(document.createElement('span'));
+    const visible = useIntersection(triggerRef, '0px');
+
+    useEffect(() => {
+        if (visible) {
+            isVisible();
+        }
+    }, [isVisible, visible]);
+
+    return <span ref={triggerRef}></span>;
+};
 
 function FixedWatchlistLink() {
     const { movies } = useMovieWatchlistStore();
