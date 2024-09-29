@@ -6,6 +6,7 @@ import { Fragment } from 'react/jsx-runtime';
 import { MovieModel } from '@api/models/omdb.schema';
 import { useShallow } from 'zustand/shallow';
 import { useEffect } from 'react';
+import MovieCard from './ui/MovieCard';
 
 function WatchlistButton({
     movie,
@@ -52,9 +53,13 @@ function Movie({ movieId }: { movieId?: string }) {
             {movie && (
                 <div className="flex flex-col p-8">
                     <div className="flex flex-row border-b-2 border-solid border-b-primary-light pb-8">
-                        <div className="rounded-md overflow-hidden">
-                            <img src={movie.Poster} alt={movie.Title} />
+                        <div className="w-[30%] max-w-[320px]">
+                            <MovieCard
+                                posterUrl={movie.Poster}
+                                title={movie.Title}
+                            />
                         </div>
+
                         <div className="flex-grow flex justify-between align-middle flex-col">
                             <div className="relative">
                                 <WatchlistButton

@@ -25,13 +25,17 @@ function MovieList() {
                     {isNaN(totalResults) ? 0 : totalResults} Results
                 </div>
             )}
-            {data?.map((movie) => (
-                <MovieListItem
-                    movie={movie}
-                    onClick={() => getMovieByImdbID(movie.imdbID)}
-                    key={movie.imdbID}
-                />
-            ))}
+            <ul>
+                {data?.map((movie) => (
+                    <li key={movie.imdbID}>
+                        <MovieListItem
+                            movie={movie}
+                            onClick={() => getMovieByImdbID(movie.imdbID)}
+                        />
+                    </li>
+                ))}
+            </ul>
+
             {canLoadMore && !loading && (
                 <div>
                     <VisibleElement isVisible={searchMore} />
