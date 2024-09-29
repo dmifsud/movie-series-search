@@ -2,6 +2,7 @@ import Movie from '@components/Movie';
 import MovieList from '@components/MovieList';
 import SearchMovie, { SearchMovieType } from '@components/SearchMovie';
 import BookmarkHeart from '@components/ui/icons/BookmarkHeart';
+import Nav from '@components/ui/Nav';
 import useQueryParams from '@hooks/useQueryParams';
 import useMovieWatchlistStore from '@store/movie-watchlist.store';
 import { Link } from 'wouter';
@@ -30,13 +31,13 @@ function SearchPage() {
 
     return (
         <div className="flex fixed w-full h-full flex-col">
-            <nav className="p-6 bg-primary text-white">
+            <Nav>
                 <SearchMovie
                     search={params['s']}
                     type={params['type'] as SearchMovieType}
                 />
                 <FixedWatchlistLink />
-            </nav>
+            </Nav>
             <section className="flex flex-grow justify-stretch overflow-hidden">
                 <div className="box-border w-[30%] min-w-[300px] max-w-[600px] border-r-2 border-r-secondary border-solid custom-scrollbar">
                     <MovieList />

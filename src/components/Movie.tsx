@@ -57,6 +57,7 @@ function Movie({ movieId }: { movieId?: string }) {
                             <MovieCard
                                 posterUrl={movie.Poster}
                                 title={movie.Title}
+                                boxartRatio
                             />
                         </div>
 
