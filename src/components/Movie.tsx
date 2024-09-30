@@ -7,14 +7,14 @@ import { MovieModel } from '@api/models/omdb.schema';
 import { useShallow } from 'zustand/shallow';
 import { useEffect } from 'react';
 import MovieCard from './ui/MovieCard';
+import useIsCurrentMovieInWatchlistSelector from '@store/selectors/useIsCurrentMovieInWatchlistSelector';
 
 function WatchlistButton({
     movie,
     className,
 }: { movie: MovieModel } & React.ButtonHTMLAttributes<{}>) {
-    const { inWatchlist } = useGetMovieStore();
+    const inWatchlist = useIsCurrentMovieInWatchlistSelector();
     const { actions } = useMovieWatchlistStore.getState();
-
     return (
         <Button
             className={className}
@@ -44,8 +44,6 @@ function Movie({ movieId }: { movieId?: string }) {
             getMovieById(movieId);
         }
     }, [movieId, getMovieById]);
-
-    console.log('render movie', movie);
 
     return (
         <div>

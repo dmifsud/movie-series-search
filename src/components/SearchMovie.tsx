@@ -1,6 +1,7 @@
 import { TitleSearchQuery } from '@api/models/omdb.schema';
 import useSearchMoviesStore from '@store/search-movie.store';
 import { useState, useRef, useCallback, useEffect } from 'react';
+import { useShallow } from 'zustand/shallow';
 
 function SearchIcon() {
     return (
@@ -30,19 +31,15 @@ function SearchMovie({
     search?: string;
     type?: SearchMovieType;
 }) {
-    const { actions } = useSearchMoviesStore.getState();
+    const searchActions = useSearchMoviesStore(
+        useShallow((state) => state.actions)
+    );
     const [movieType, setMovieType] = useState<SearchMovieType>(
         propType ?? 'any'
     );
     const searchRef = useRef<HTMLInputElement>(null);
 
-    const searchMovieByTitle = useCallback(actions.searchMovieByTitle, []);
-
-    const handleSearch = (e: React.ChangeEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        const searchValue = searchRef.current?.value || '';
-        searchMovieByTitle(searchValue, {}, true);
-    };
+    const searchMovie = useCallback(searchActions.searchMovie, []);
 
     useEffect(() => {
         const searchValue = searchRef.current?.value || '';
@@ -51,9 +48,17 @@ function SearchMovie({
             if (movieType !== 'any') {
                 type = movieType;
             }
-            searchMovieByTitle(searchValue, { type }, true);
+            searchMovie({ s: searchValue, type }, true);
         }
-    }, [movieType]);
+    }, [movieType, searchMovie]);
+
+    // FUNCTION HANDLERS
+
+    const handleSearch = (e: React.ChangeEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const searchValue = searchRef.current?.value || '';
+        searchMovie({ s: searchValue }, true);
+    };
 
     const onOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setMovieType(e.target.value as SearchMovieType);

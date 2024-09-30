@@ -1,24 +1,13 @@
 import { MovieModel } from '@api/models/omdb.schema';
-import useGetMovieStore from '@store/get-movie.store';
-import { useShallow } from 'zustand/shallow';
 import MovieCard from './ui/MovieCard';
-
-function useIsSelectedSelector(movieId: string) {
-    const { isSelected } = useGetMovieStore(
-        useShallow((state) => ({
-            isSelected: state.data?.imdbID === movieId,
-        }))
-    );
-
-    return isSelected;
-}
+import useIsMovieSelectedSelector from '@store/selectors/useIsMovieSelectedSelector';
 
 export interface MovieListItemProps extends React.DOMAttributes<{}> {
     movie: MovieModel;
 }
 
 function MovieListItem({ movie, ...htmlAttr }: MovieListItemProps) {
-    const isSelected = useIsSelectedSelector(movie.imdbID);
+    const isSelected = useIsMovieSelectedSelector(movie.imdbID);
 
     return (
         <div

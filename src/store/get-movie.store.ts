@@ -7,6 +7,7 @@ import updateQueryString from '@utils/updateQueryString';
 import useSearchMoviesStore from './search-movie.store';
 
 export interface GetMovieStore extends CrudSlice<MovieModel> {
+    optimisticSelectionId: string | null;
     inWatchlist: boolean | null;
 }
 
@@ -20,6 +21,7 @@ const initialState: Omit<GetMovieStore, 'setWatchList'> = {
     error: null,
     data: null,
     inWatchlist: null,
+    optimisticSelectionId: null,
 };
 
 const useGetMovieStore = create<StateSlice<GetMovieStore, GetMovieActions>>()(
@@ -27,10 +29,8 @@ const useGetMovieStore = create<StateSlice<GetMovieStore, GetMovieActions>>()(
         ...initialState,
         actions: {
             getMovieByImdbID: async (imdbID: string) => {
-                set({ loading: true });
+                set({ loading: true, optimisticSelectionId: imdbID });
                 try {
-                    // const result = movieMock;
-                    // const inWatchlist = false;
                     const result = await OmdbApi.getId(imdbID);
                     const inWatchlist = useMovieWatchlistStore
                         .getState()
@@ -39,7 +39,7 @@ const useGetMovieStore = create<StateSlice<GetMovieStore, GetMovieActions>>()(
                     const query = useSearchMoviesStore.getState().query ?? {};
                     updateQueryString({ ...query, imdbid: imdbID });
                 } catch (error: any) {
-                    set({ loading: false, error: error.message });
+                    set({ ...initialState, error: error.message });
                 }
             },
             setWatchList: (id: string, inWatchlist: boolean) => {

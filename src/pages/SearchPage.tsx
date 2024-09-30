@@ -27,8 +27,6 @@ function FixedWatchlistLink() {
 function SearchPage() {
     const params = useQueryParams();
 
-    console.log('render search');
-
     return (
         <div className="flex fixed w-full h-full flex-col">
             <Nav>

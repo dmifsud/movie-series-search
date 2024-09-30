@@ -9,22 +9,6 @@ if (import.meta.env.MODE === 'production') {
 }
 
 function App() {
-    // const { actions } = useSearchMoviesStore.getState();
-
-    // useEffect(() => {
-    //   // OmdbApi.getTitle('empire strikes back').then(result => {
-    //   //   console.log(result);
-    //   //   console.log(result.Ratings?.map(rating => rating.Value).join(', '));
-    //   // });
-    //   // setTimeout(() => {
-    //   //   actions.searchMovieByTitle('fight club');
-
-    //   // }, 1000);
-
-    // }, [actions]);
-
-    console.log('render app');
-
     return (
         <>
             <Router base={baseUrl}>

@@ -3,21 +3,24 @@ import useSearchMoviesStore from '@store/search-movie.store';
 import { useCallback } from 'react';
 import MovieListItem from './MovieListItem';
 import VisibleElement from './utils/VisibleElement';
+import { useShallow } from 'zustand/shallow';
 
 function MovieList() {
-    const {
-        data,
-        loading,
-        totalResults,
-        actions: searchActions,
-        canLoadMore,
-    } = useSearchMoviesStore();
+    const { movieList, loading, totalResults, searchActions, canLoadMore } =
+        useSearchMoviesStore(
+            useShallow((state) => ({
+                movieList: state.data,
+                loading: state.loading,
+                totalResults: state.totalResults,
+                searchActions: state.actions,
+                canLoadMore: state.canLoadMore,
+            }))
+        );
     const { actions } = useGetMovieStore.getState();
 
     const getMovieByImdbID = useCallback(actions.getMovieByImdbID, []);
     const searchMore = useCallback(searchActions.searchMore, []);
 
-    console.log('render movies', { data, loading, totalResults });
     return (
         <div>
             {totalResults !== null && (
@@ -26,7 +29,7 @@ function MovieList() {
                 </div>
             )}
             <ul>
-                {data?.map((movie) => (
+                {movieList?.map((movie) => (
                     <li key={movie.imdbID}>
                         <MovieListItem
                             movie={movie}

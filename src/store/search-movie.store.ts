@@ -16,10 +16,8 @@ export interface SearchMoviesStore
 }
 
 export interface SearchMoviesActions {
-    searchMovie: (filter: TitleSearchQuery) => void;
-    searchMovieByTitle: (
-        title: string,
-        filter?: SearchFilter,
+    searchMovie: (
+        filter: TitleSearchQuery,
         updateQueryString?: boolean
     ) => void;
     searchMore: () => void;
@@ -53,7 +51,6 @@ const useSearchMoviesStore = create<
                     });
                     const total = +result.totalResults;
                     const totalPages = total / pageCount;
-                    console.log(nextPage, totalPages, nextPage < totalPages);
                     set({
                         loading: false,
                         data: [...(data ?? []), ...result.Search],
@@ -68,30 +65,12 @@ const useSearchMoviesStore = create<
                 console.error('Could not load more!');
             }
         },
-        searchMovie: async (filter: TitleSearchQuery) => {
-            set({ ...initialState, loading: true });
-            try {
-                const result = await OmdbApi.titleSearch(filter);
-                const total = +result.totalResults;
-                set({
-                    loading: false,
-                    data: result.Search,
-                    totalResults: total,
-                    canLoadMore: result.Search.length < total,
-                    query: filter,
-                });
-            } catch (error: any) {
-                set({ loading: false, error: error.message });
-            }
-        },
-        searchMovieByTitle: async (
-            title: string,
-            filter?: SearchFilter,
+        searchMovie: async (
+            query: TitleSearchQuery,
             updateQueryString?: boolean
         ) => {
             set({ ...initialState, loading: true });
             try {
-                const query = { s: title, ...filter };
                 const result = await OmdbApi.titleSearch(query);
                 const total = +result.totalResults;
                 set({

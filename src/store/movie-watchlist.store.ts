@@ -1,11 +1,11 @@
-import { MovieModel } from "@api/models/omdb.schema";
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
-import { StateSlice } from "./store.types";
-import useGetMovieStore from "./get-movie.store";
+import { MovieModel } from '@api/models/omdb.schema';
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { StateSlice } from './store.types';
+import useGetMovieStore from './get-movie.store';
 
 export interface MovieWatchlistStore {
-    movies: { id: string; movie: MovieModel; dateAdded: string; }[]
+    movies: { id: string; movie: MovieModel; dateAdded: string }[];
 }
 
 export interface MovieWatchlistStoreActions {
@@ -14,40 +14,53 @@ export interface MovieWatchlistStoreActions {
 }
 
 const initialState: MovieWatchlistStore = {
-    movies: []
+    movies: [],
 };
 
-const useMovieWatchlistStore = create<StateSlice<MovieWatchlistStore, MovieWatchlistStoreActions>>()(
+const useMovieWatchlistStore = create<
+    StateSlice<MovieWatchlistStore, MovieWatchlistStoreActions>
+>()(
     persist(
         (set, get) => ({
             ...initialState,
             actions: {
                 setMovieToWatchlist: (movie: MovieModel) => {
-                    console.log('todo: set movie', movie);
                     const { movies } = get();
-                    if (movies.some(m => m.id === movie.imdbID)) {
-                        console.warn('Warning! Movie already added in watchlist');
+                    if (movies.some((m) => m.id === movie.imdbID)) {
+                        console.warn(
+                            'Warning! Movie already added in watchlist'
+                        );
                     } else {
-                        set({ movies: [...movies, { id: movie.imdbID, movie, dateAdded: new Date().toISOString() }]});
-                        useGetMovieStore.getState().actions.setWatchList(movie.imdbID, true);
+                        set({
+                            movies: [
+                                ...movies,
+                                {
+                                    id: movie.imdbID,
+                                    movie,
+                                    dateAdded: new Date().toISOString(),
+                                },
+                            ],
+                        });
+                        useGetMovieStore
+                            .getState()
+                            .actions.setWatchList(movie.imdbID, true);
                     }
                 },
                 removeMovieFromWatchlist: (id: string) => {
                     console.log('todo: remove movie from watchlist', id);
                     const { movies } = get();
-                    set({ movies: movies.filter(m => m.id !== id)}, false);
+                    set({ movies: movies.filter((m) => m.id !== id) }, false);
                     useGetMovieStore.getState().actions.setWatchList(id, false);
                 },
-            }
+            },
         }),
         {
             name: 'watchlist-storage',
-            partialize: (state) =>
-                {
-                    return {
-                        movies: state.movies
-                    }
-                },
+            partialize: (state) => {
+                return {
+                    movies: state.movies,
+                };
+            },
         }
     )
 );
