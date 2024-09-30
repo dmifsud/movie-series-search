@@ -65,7 +65,11 @@ function SearchMovie({
     };
 
     return (
-        <form onSubmit={handleSearch} className="flex justify-between">
+        <form
+            onSubmit={handleSearch}
+            className="flex justify-between"
+            data-testid="search-form"
+        >
             <div>
                 <label
                     htmlFor="default-search"
@@ -80,6 +84,7 @@ function SearchMovie({
                     <input
                         type="search"
                         id="default-search"
+                        data-testid="default-search"
                         defaultValue={search}
                         onFocus={() => searchRef.current?.select()}
                         ref={searchRef}

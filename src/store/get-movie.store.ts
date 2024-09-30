@@ -1,4 +1,4 @@
-import { MovieModel, OmdbApiResponseError } from '@api/models/omdb.schema';
+import { MovieModel } from '@api/models/omdb.schema';
 import { OmdbApi } from '@api/omdb.api';
 import { CrudSlice, StateSlice } from '@store/store.types';
 import { create } from 'zustand';
@@ -14,6 +14,7 @@ export interface GetMovieStore extends CrudSlice<MovieModel> {
 export interface GetMovieActions {
     getMovieByImdbID: (imdbID: string) => void;
     setWatchList: (id: string, inWatchlist: boolean) => void;
+    reset: () => void;
 }
 
 const initialState: Omit<GetMovieStore, 'setWatchList'> = {
@@ -65,6 +66,9 @@ const useGetMovieStore = create<StateSlice<GetMovieStore, GetMovieActions>>()(
                 if (data?.imdbID === id) {
                     set({ inWatchlist });
                 }
+            },
+            reset: () => {
+                set({ ...initialState });
             },
         },
     })

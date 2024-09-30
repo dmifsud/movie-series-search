@@ -22,6 +22,7 @@ export interface SearchMoviesActions {
         updateQueryString?: boolean
     ) => void;
     searchMore: () => void;
+    reset: () => void;
 }
 
 const initialState: SearchMoviesStore = {
@@ -99,6 +100,9 @@ const useSearchMoviesStore = create<
             } else {
                 set({ ...initialState });
             }
+        },
+        reset: () => {
+            set({ ...initialState });
         },
     },
 }));
