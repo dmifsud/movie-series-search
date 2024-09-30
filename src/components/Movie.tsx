@@ -51,7 +51,7 @@ function Movie({ movieId }: { movieId?: string }) {
             {movie && (
                 <div className="flex flex-col p-8">
                     <div className="flex flex-row border-b-2 border-solid border-b-primary-light pb-8">
-                        <div className="w-[30%] max-w-[320px]">
+                        <div className="w-[30%] sm:max-w-[180px] md:max-w-[200px] xl:max-w-[320px]">
                             <MovieCard
                                 posterUrl={movie.Poster}
                                 title={movie.Title}
@@ -67,10 +67,10 @@ function Movie({ movieId }: { movieId?: string }) {
                                 />
                             </div>
                             <div className="flex flex-col gap-4 min-h-[60%] px-8">
-                                <h2 className="text-5xl font-bold">
+                                <h2 className="sm:text-2xl lg:text-5xl font-bold">
                                     {movie.Title}
                                 </h2>
-                                <p className="text-primary text-2xl leading-loose">
+                                <p className="text-primary sm:text-lg lg:text-2xl leading-loose">
                                     <span className="border-2 border-solid border-primary py-1 px-4 rounded-md mr-2">
                                         {movie.Rated}
                                     </span>
@@ -80,21 +80,23 @@ function Movie({ movieId }: { movieId?: string }) {
                                     <span className="px-1">&middot;</span>
                                     {movie.Runtime}
                                 </p>
-                                <p className="text-primary text-2xl">
+                                <p className="text-primary sm:text-lg lg:text-2xl">
                                     {movie.Actors}
                                 </p>
                             </div>
                         </div>
                     </div>
                     <div className="border-b-2 border-solid border-b-primary-light py-8">
-                        <p className="text-2xl text-primary">{movie.Plot}</p>
+                        <p className="sm:text-lg lg:text-2xl text-primary">
+                            {movie.Plot}
+                        </p>
                     </div>
                     <div className="py-8 flex flex-row justify-center gap-8">
                         {movie.Ratings &&
                             movie.Ratings.map((rating, i) => (
                                 <Fragment key={i}>
                                     <div className="text-center text-primary">
-                                        <div className="text-2xl mb-2">
+                                        <div className="sm:text-lg lg:text-2xl mb-2">
                                             {rating.Value}
                                         </div>
                                         <div className="text-lg">
