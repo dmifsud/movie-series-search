@@ -13,6 +13,7 @@ export interface SearchMoviesStore
     canLoadMore: boolean;
     page: number;
     query: SearchFilter | null;
+    initialLoading: boolean;
 }
 
 export interface SearchMoviesActions {
@@ -25,6 +26,7 @@ export interface SearchMoviesActions {
 
 const initialState: SearchMoviesStore = {
     loading: false,
+    initialLoading: false,
     error: null,
     data: null,
     totalResults: null,
@@ -59,7 +61,7 @@ const useSearchMoviesStore = create<
                         page: nextPage,
                     });
                 } catch (error: any) {
-                    set({ loading: false, error: error.message });
+                    set({ ...initialState, error: error.message });
                 }
             } else {
                 console.error('Could not load more!');
@@ -69,12 +71,12 @@ const useSearchMoviesStore = create<
             query: TitleSearchQuery,
             updateQueryString?: boolean
         ) => {
-            set({ ...initialState, loading: true });
+            set({ ...initialState, initialLoading: true });
             try {
                 const result = await OmdbApi.titleSearch(query);
                 const total = +result.totalResults;
                 set({
-                    loading: false,
+                    initialLoading: false,
                     data: result.Search,
                     totalResults: total,
                     canLoadMore: result.Search.length < total,
@@ -86,7 +88,7 @@ const useSearchMoviesStore = create<
                     );
                 }
             } catch (error: any) {
-                set({ loading: false, error: error.message });
+                set({ ...initialState, error: error.message });
             }
         },
     },

@@ -7,16 +7,23 @@ import { useShallow } from 'zustand/shallow';
 import FallbackMessage from './ui/FallbackMessage';
 
 function MovieList() {
-    const { movieList, loading, totalResults, searchActions, canLoadMore } =
-        useSearchMoviesStore(
-            useShallow((state) => ({
-                movieList: state.data,
-                loading: state.loading,
-                totalResults: state.totalResults,
-                searchActions: state.actions,
-                canLoadMore: state.canLoadMore,
-            }))
-        );
+    const {
+        movieList,
+        loading,
+        totalResults,
+        searchActions,
+        canLoadMore,
+        initialLoading,
+    } = useSearchMoviesStore(
+        useShallow((state) => ({
+            movieList: state.data,
+            loading: state.loading,
+            totalResults: state.totalResults,
+            searchActions: state.actions,
+            canLoadMore: state.canLoadMore,
+            initialLoading: state.initialLoading,
+        }))
+    );
     const { actions } = useGetMovieStore.getState();
 
     const getMovieByImdbID = useCallback(actions.getMovieByImdbID, []);
@@ -24,35 +31,50 @@ function MovieList() {
 
     return (
         <>
-            {!movieList || movieList.length === 0 ? (
+            {!movieList && !initialLoading ? (
                 <FallbackMessage>
                     Search movie or series from the Nav bar above
                 </FallbackMessage>
             ) : (
                 <div>
-                    {totalResults !== null && (
-                        <div className="p-8 uppercase sticky top-0 bg-white z-20">
-                            {isNaN(totalResults) ? 0 : totalResults} Results
-                        </div>
-                    )}
-                    <ul>
-                        {movieList?.map((movie) => (
-                            <li key={movie.imdbID}>
-                                <MovieListItem
-                                    movie={movie}
-                                    onClick={() =>
-                                        getMovieByImdbID(movie.imdbID)
-                                    }
-                                />
-                            </li>
-                        ))}
-                    </ul>
+                    {initialLoading ? (
+                        <ul>
+                            {Array(10)
+                                .fill(null)
+                                .map((_, i) => (
+                                    <li key={`skeleton-movie-list-item-${i}`}>
+                                        <MovieListItem showSkeleton />
+                                    </li>
+                                ))}
+                        </ul>
+                    ) : (
+                        <>
+                            {totalResults !== null && (
+                                <div className="p-8 uppercase sticky top-0 bg-white z-20">
+                                    {isNaN(totalResults) ? 0 : totalResults}{' '}
+                                    Results
+                                </div>
+                            )}
+                            <ul>
+                                {movieList?.map((movie) => (
+                                    <li key={movie.imdbID}>
+                                        <MovieListItem
+                                            movie={movie}
+                                            onClick={() =>
+                                                getMovieByImdbID(movie.imdbID)
+                                            }
+                                        />
+                                    </li>
+                                ))}
+                            </ul>
 
-                    {canLoadMore && !loading && (
-                        <div>
-                            <VisibleElement isVisible={searchMore} />
-                            Loading&hellip;
-                        </div>
+                            {canLoadMore && !loading && (
+                                <div>
+                                    <VisibleElement isVisible={searchMore} />
+                                    Loading&hellip;
+                                </div>
+                            )}
+                        </>
                     )}
                 </div>
             )}

@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import MovieCard from './ui/MovieCard';
 import useIsCurrentMovieInWatchlistSelector from '@store/selectors/useIsCurrentMovieInWatchlistSelector';
 import FallbackMessage from './ui/FallbackMessage';
+import Skeleton from 'react-loading-skeleton';
 
 function WatchlistButton({
     movie,
@@ -46,37 +47,46 @@ function Movie({ movieId }: { movieId?: string }) {
         }
     }, [movieId, getMovieById]);
 
+    const showMovie = movie && !loading;
+
     return (
         <>
-            {!movie ? (
+            {!movie && !loading ? (
                 <FallbackMessage>
                     Select a movie or a series from the left menu
                 </FallbackMessage>
             ) : (
                 <div>
-                    {loading && <span>Fetching Movie&hellip;</span>}
-                    {movie && (
-                        <div className="flex flex-col p-8">
-                            <div className="flex flex-row border-b-2 border-solid border-b-primary-light pb-8">
-                                <div className="w-[30%] sm:max-w-[180px] md:max-w-[200px] xl:max-w-[320px]">
+                    <div className="flex flex-col p-8">
+                        <div className="flex flex-row border-b-2 border-solid border-b-primary-light pb-8">
+                            <div className="w-[30%] sm:max-w-[180px] md:max-w-[200px] xl:max-w-[320px]">
+                                {showMovie && (
                                     <MovieCard
                                         posterUrl={movie.Poster}
                                         title={movie.Title}
                                         boxartRatio
                                     />
-                                </div>
+                                )}
+                                {loading && <Skeleton height="100%" />}
+                            </div>
 
-                                <div className="flex-grow flex justify-between align-middle flex-col">
-                                    <div className="relative">
+                            <div className="flex-grow flex justify-between align-middle flex-col">
+                                <div className="relative">
+                                    {showMovie && (
                                         <WatchlistButton
                                             movie={movie}
                                             className="absolute top-0 right-0 inline-flex gap-2 items-center z-50 bg-white text-2xl"
                                         />
-                                    </div>
-                                    <div className="flex flex-col gap-4 min-h-[60%] px-8">
-                                        <h2 className="sm:text-2xl lg:text-5xl font-bold">
-                                            {movie.Title}
-                                        </h2>
+                                    )}
+                                </div>
+                                <div className="flex flex-col gap-4 min-h-[60%] px-8">
+                                    <h2 className="sm:text-2xl lg:text-5xl font-bold">
+                                        {movie && !loading && movie.Title}
+                                        {loading && (
+                                            <Skeleton width="50%" height={40} />
+                                        )}
+                                    </h2>
+                                    {showMovie && (
                                         <p className="text-primary sm:text-lg lg:text-2xl leading-loose">
                                             <span className="border-2 border-solid border-primary py-1 px-4 rounded-md mr-2">
                                                 {movie.Rated}
@@ -91,39 +101,62 @@ function Movie({ movieId }: { movieId?: string }) {
                                             </span>
                                             {movie.Runtime}
                                         </p>
-                                        <p className="text-primary sm:text-lg lg:text-2xl">
-                                            {movie.Actors}
+                                    )}
+                                    {loading && (
+                                        <p className="h-[450px]">
+                                            <Skeleton count={4} />
                                         </p>
-                                    </div>
+                                    )}
+                                    <p className="text-primary sm:text-lg lg:text-2xl">
+                                        {showMovie && movie.Actors}
+                                    </p>
                                 </div>
                             </div>
-                            <div className="border-b-2 border-solid border-b-primary-light py-8">
-                                <p className="sm:text-lg lg:text-2xl text-primary">
-                                    {movie.Plot}
-                                </p>
-                            </div>
-                            <div className="py-8 flex flex-row justify-center gap-8">
-                                {movie.Ratings &&
-                                    movie.Ratings.map((rating, i) => (
-                                        <Fragment key={i}>
-                                            <div className="text-center text-primary">
-                                                <div className="sm:text-lg lg:text-2xl mb-2">
-                                                    {rating.Value}
-                                                </div>
-                                                <div className="text-lg">
-                                                    {rating.Source}
-                                                </div>
+                        </div>
+                        <div className="border-b-2 border-solid border-b-primary-light py-8">
+                            <p className="sm:text-lg lg:text-2xl text-primary">
+                                {showMovie && movie.Plot}
+                                {loading && <Skeleton count={4} />}
+                            </p>
+                        </div>
+                        <div className="py-8 flex flex-row justify-center gap-8">
+                            {showMovie &&
+                                movie.Ratings &&
+                                movie.Ratings.map((rating, i) => (
+                                    <Fragment key={i}>
+                                        <div className="text-center text-primary">
+                                            <div className="sm:text-lg lg:text-2xl mb-2">
+                                                {rating.Value}
                                             </div>
-                                            {i !==
-                                                (movie?.Ratings?.length ?? 0) -
-                                                    1 && (
+                                            <div className="text-lg">
+                                                {rating.Source}
+                                            </div>
+                                        </div>
+                                        {i !==
+                                            (movie?.Ratings?.length ?? 0) -
+                                                1 && (
+                                            <div className="border-r-2 border-solid border-primary-light"></div>
+                                        )}
+                                    </Fragment>
+                                ))}
+                            {loading &&
+                                Array(3)
+                                    .fill(null)
+                                    .map((_, i) => (
+                                        <Fragment key={`skeleton-rating-${i}`}>
+                                            <div>
+                                                <Skeleton
+                                                    width={130}
+                                                    count={2}
+                                                />
+                                            </div>
+                                            {i !== 2 && (
                                                 <div className="border-r-2 border-solid border-primary-light"></div>
                                             )}
                                         </Fragment>
                                     ))}
-                            </div>
                         </div>
-                    )}
+                    </div>
                 </div>
             )}
         </>

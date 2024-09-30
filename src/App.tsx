@@ -2,6 +2,7 @@ import './App.css';
 import { Route, Router, Switch } from 'wouter';
 import SearchPage from './pages/SearchPage';
 import WatchListPage from './pages/WatchListPage';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 let baseUrl = '';
 if (import.meta.env.MODE === 'production') {
