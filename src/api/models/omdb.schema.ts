@@ -4,11 +4,11 @@ export interface TitleQuery {
     /** Year of release */
     y?: number;
     /** Return movie or series */
-    type?: "movie" | "series";
+    type?: 'movie' | 'series';
     /** Return short or full plot */
-    plot?: "short" | "full";
+    plot?: 'short' | 'full';
     /** The response type to return */
-    r?: "json" | "xml";
+    r?: 'json' | 'xml';
     /** JSONP callback name */
     callback?: string;
 }
@@ -19,9 +19,9 @@ export interface TitleSearchQuery {
     /** Year of release */
     y?: string;
     /** Return movie or series */
-    type?: "movie" | "series" | "episode";
+    type?: 'movie' | 'series' | 'episode';
     /** The response type to return */
-    r?: "json" | "xml";
+    r?: 'json' | 'xml';
     /** Page number to return */
     page?: number;
     /** JSONP callback name */
@@ -32,19 +32,23 @@ export interface GetIdQuery {
     /** A valid IMDb ID (e.g. tt0000001) */
     i: string;
     /** Return short or full plot */
-    plot?: "short" | "full";
+    plot?: 'short' | 'full';
     /** The response type to return */
-    r?: "json" | "xml";
+    r?: 'json' | 'xml';
     /** JSONP callback name */
     callback?: string;
 }
 
 export interface OmdbApiResponse<T> {
-    Response: string;
+    Response: 'True';
     totalResults: string;
     Search: T;
 }
 
+export interface OmdbApiResponseError {
+    Response: 'False';
+    Error: string;
+}
 
 export interface MovieModel {
     Title: string;
@@ -66,7 +70,7 @@ export interface MovieModel {
     imdbVotes: string;
     imdbID: string;
     Type: string;
-    Response: string;
+    Response: 'True';
     Ratings?: { Source: string; Value: string }[];
 
     totalSeasons?: string; // Optional
@@ -86,6 +90,5 @@ export interface MovieModel {
     Production?: string; // Optional
     Website?: string; // Optional
 }
-
 
 export interface TitleSearchResponse extends OmdbApiResponse<MovieModel[]> {}

@@ -64,8 +64,6 @@ function SearchMovie({
         setMovieType(e.target.value as SearchMovieType);
     };
 
-    console.log('render search movie');
-
     return (
         <form onSubmit={handleSearch} className="flex justify-between">
             <div>
@@ -83,6 +81,7 @@ function SearchMovie({
                         type="search"
                         id="default-search"
                         defaultValue={search}
+                        onFocus={() => searchRef.current?.select()}
                         ref={searchRef}
                         className="block w-full py-4 px-[55px] text-xl bg-transparent text-white focus:ring-0 focus:border-transparent focus:ring-offset-0 focus:outline-none"
                         placeholder="Search Movies..."

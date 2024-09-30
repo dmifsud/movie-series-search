@@ -1,4 +1,4 @@
-import { MovieModel } from '@api/models/omdb.schema';
+import { MovieModel, OmdbApiResponseError } from '@api/models/omdb.schema';
 import { OmdbApi } from '@api/omdb.api';
 import { CrudSlice, StateSlice } from '@store/store.types';
 import { create } from 'zustand';
@@ -29,17 +29,35 @@ const useGetMovieStore = create<StateSlice<GetMovieStore, GetMovieActions>>()(
         ...initialState,
         actions: {
             getMovieByImdbID: async (imdbID: string) => {
-                set({ loading: true, optimisticSelectionId: imdbID });
+                set({
+                    ...initialState,
+                    loading: true,
+                    optimisticSelectionId: imdbID,
+                });
                 try {
                     const result = await OmdbApi.getId(imdbID);
+                    if (
+                        result.Response === 'False' ||
+                        typeof result === 'string'
+                    ) {
+                        // NOTE: API "bug" that returns an unparsed response
+                        throw Error(result.Error);
+                    }
                     const inWatchlist = useMovieWatchlistStore
                         .getState()
                         .movies.some((movie) => movie.id === imdbID);
-                    set({ loading: false, data: result, inWatchlist });
+                    set({
+                        loading: false,
+                        data: result,
+                        inWatchlist,
+                    });
                     const query = useSearchMoviesStore.getState().query ?? {};
                     updateQueryString({ ...query, imdbid: imdbID });
                 } catch (error: any) {
-                    set({ ...initialState, error: error.message });
+                    set({
+                        ...initialState,
+                        error: error.message || 'Movie not found',
+                    });
                 }
             },
             setWatchList: (id: string, inWatchlist: boolean) => {

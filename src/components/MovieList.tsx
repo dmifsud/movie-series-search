@@ -14,6 +14,7 @@ function MovieList() {
         searchActions,
         canLoadMore,
         initialLoading,
+        errorMsg,
     } = useSearchMoviesStore(
         useShallow((state) => ({
             movieList: state.data,
@@ -22,6 +23,7 @@ function MovieList() {
             searchActions: state.actions,
             canLoadMore: state.canLoadMore,
             initialLoading: state.initialLoading,
+            errorMsg: state.error,
         }))
     );
     const { actions } = useGetMovieStore.getState();
@@ -33,7 +35,11 @@ function MovieList() {
         <>
             {!movieList && !initialLoading ? (
                 <FallbackMessage>
-                    Search movie or series from the Nav bar above
+                    {errorMsg ? (
+                        errorMsg
+                    ) : (
+                        <>Search movie or series from the Nav bar above</>
+                    )}
                 </FallbackMessage>
             ) : (
                 <div>

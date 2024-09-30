@@ -33,11 +33,12 @@ function WatchlistButton({
 }
 
 function Movie({ movieId }: { movieId?: string }) {
-    const { movie, loading, getMovieById } = useGetMovieStore(
+    const { movie, loading, getMovieById, errorMsg } = useGetMovieStore(
         useShallow((state) => ({
             movie: state.data,
             loading: state.loading,
             getMovieById: state.actions.getMovieByImdbID,
+            errorMsg: state.error,
         }))
     );
 
@@ -48,12 +49,15 @@ function Movie({ movieId }: { movieId?: string }) {
     }, [movieId, getMovieById]);
 
     const showMovie = movie && !loading;
-
     return (
         <>
-            {!movie && !loading ? (
+            {(!movie || errorMsg) && !loading ? (
                 <FallbackMessage>
-                    Select a movie or a series from the left menu
+                    {errorMsg ? (
+                        errorMsg
+                    ) : (
+                        <>Select a movie or a series from the left menu</>
+                    )}
                 </FallbackMessage>
             ) : (
                 <div>

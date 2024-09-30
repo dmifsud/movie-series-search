@@ -45,12 +45,14 @@ const useSearchMoviesStore = create<
             if (query && canLoadMore) {
                 set({ loading: true });
                 try {
-                    // TODO: keep this DRY
                     const nextPage = page + 1;
                     const result = await OmdbApi.titleSearch({
                         ...query,
                         page: nextPage,
                     });
+                    if (result.Response === 'False') {
+                        throw Error(result.Error);
+                    }
                     const total = +result.totalResults;
                     const totalPages = total / pageCount;
                     set({
@@ -71,24 +73,31 @@ const useSearchMoviesStore = create<
             query: TitleSearchQuery,
             updateQueryString?: boolean
         ) => {
-            set({ ...initialState, initialLoading: true });
-            try {
-                const result = await OmdbApi.titleSearch(query);
-                const total = +result.totalResults;
-                set({
-                    initialLoading: false,
-                    data: result.Search,
-                    totalResults: total,
-                    canLoadMore: result.Search.length < total,
-                    query,
-                });
-                if (updateQueryString) {
-                    updateQueryStringHelper(
-                        query as any as Record<string, string>
-                    );
+            if (query.s) {
+                set({ ...initialState, initialLoading: true });
+                try {
+                    const result = await OmdbApi.titleSearch(query);
+                    if (result.Response === 'False') {
+                        throw Error(result.Error);
+                    }
+                    const total = +result.totalResults;
+                    set({
+                        initialLoading: false,
+                        data: result.Search,
+                        totalResults: total,
+                        canLoadMore: result.Search.length < total,
+                        query,
+                    });
+                    if (updateQueryString) {
+                        updateQueryStringHelper(
+                            query as any as Record<string, string>
+                        );
+                    }
+                } catch (error: any) {
+                    set({ ...initialState, error: error.message });
                 }
-            } catch (error: any) {
-                set({ ...initialState, error: error.message });
+            } else {
+                set({ ...initialState });
             }
         },
     },
