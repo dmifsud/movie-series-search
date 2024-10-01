@@ -58,4 +58,4 @@ A few tests have been included for reference, but this is not full test coverage
     -   Front-end filtering would complicate pagination logic, as managing subsets of data requires handling data differently.
     -   Multiple API calls would need to be made to gather all relevant data, which could burden the API and result in performance issues.
     -   Implementing this feature by lazy loading all search results would not be ideal, as it could result in fetching hundreds or even thousands of entries.
--   The filter component was included for demonstration purposes only and will display a warning message to the user when used.
+-   The filter component was included for demonstration purposes only and will display a warning message to the user when used. It was sourced from this [sandbox](https://codesandbox.io/p/sandbox/multi-range-slider-react-js-ecwcr) and customized to align with the design. Additional functionality was added, and it was adapted to TypeScript for improved type safety and scalability.
