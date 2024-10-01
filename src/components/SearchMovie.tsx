@@ -97,7 +97,7 @@ function SearchMovie({
             {/* <MultiRangeSlider min={1950} max={2024} /> */}
             <div>
                 <h5 className="uppercase">Type</h5>
-                <div className="flex gap-5">
+                <div className="flex gap-5" data-testid="radio-types">
                     {[
                         ['any', 'Any'],
                         ['movie', 'Movie'],
@@ -114,6 +114,7 @@ function SearchMovie({
                                     type="radio"
                                     className="peer h-5 w-5 cursor-pointer disabled:cursor-default appearance-none rounded-full border-2 border-white checked:border-white transition-all disabled:border-primary-light disabled:opacity-50"
                                     id={key}
+                                    data-testid={`radio-type-${key}`}
                                     value={key}
                                     onChange={onOptionChange}
                                     checked={movieType === key}

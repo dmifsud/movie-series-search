@@ -52,4 +52,44 @@ describe('SearchMovie component', () => {
             )
         );
     });
+
+    it('should trigger search query on change of types', async () => {
+        const mockSearch = 'Star Wars';
+        const { result } = renderHook(() => useSearchMoviesStore());
+
+        act(() => {
+            vi.spyOn(result.current.actions, 'searchMovie').mockImplementation(
+                () => {}
+            );
+        });
+
+        const component = render(<SearchMovie />);
+
+        const searchElement = component.getByTestId(
+            'default-search'
+        ) as HTMLInputElement;
+
+        const typesContainer = component.getByTestId(
+            'radio-types'
+        ) as HTMLDivElement;
+
+        const types = typesContainer.querySelectorAll('input[type=radio]');
+
+        expect(types.length).toBe(4);
+
+        fireEvent.change(searchElement, { target: { value: mockSearch } });
+
+        const movieTypeRadio = component.getByTestId(
+            'radio-type-movie'
+        ) as HTMLInputElement;
+
+        fireEvent.click(movieTypeRadio);
+
+        await waitFor(() =>
+            expect(result.current.actions.searchMovie).toHaveBeenCalledWith(
+                { s: mockSearch, type: 'movie' },
+                true
+            )
+        );
+    });
 });
