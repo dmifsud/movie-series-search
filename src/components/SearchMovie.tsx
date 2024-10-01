@@ -2,6 +2,9 @@ import { TitleSearchQuery } from '@api/models/omdb.schema';
 import useSearchMoviesStore from '@store/search-movie.store';
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
+import MultiRangeSlider, {
+    MultiRangeSliderProps,
+} from './ui/third-party/MultiRangeSlider/MultiRangeSlider';
 
 function SearchIcon() {
     return (
@@ -20,6 +23,35 @@ function SearchIcon() {
                 d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
             />
         </svg>
+    );
+}
+
+function SearchMovieSlider(
+    sliderProps: Omit<MultiRangeSliderProps, 'min' | 'max'>
+) {
+    const { min, max } = useSearchMoviesStore(
+        useShallow((state) => {
+            let min = 0;
+            let max = 0;
+
+            if (state.data && state.data.length > 0) {
+                const years = state.data.map((movie) =>
+                    Number.parseInt(movie.Year)
+                );
+                min = Math.min(...years);
+                max = Math.max(...years);
+            }
+
+            return { min, max };
+        })
+    );
+
+    return (
+        <MultiRangeSlider
+            min={min || new Date().getFullYear() - 100}
+            max={max || new Date().getFullYear()}
+            {...sliderProps}
+        />
     );
 }
 
@@ -94,37 +126,54 @@ function SearchMovie({
                 </div>
             </div>
 
-            {/* <MultiRangeSlider min={1950} max={2024} /> */}
-            <div>
-                <h5 className="uppercase">Type</h5>
-                <div className="flex gap-5" data-testid="radio-types">
-                    {[
-                        ['any', 'Any'],
-                        ['movie', 'Movie'],
-                        ['series', 'Series'],
-                        ['episodes', 'Episodes', 'disabled'],
-                    ].map(([key, name, disabled]) => (
-                        <div key={key} className="inline-flex items-center">
-                            <label
-                                className="relative flex items-center gap-2 cursor-pointer peer-disabled:cursor-default text-white"
-                                htmlFor={key}
-                            >
-                                <input
-                                    name="inline-radio-group"
-                                    type="radio"
-                                    className="peer h-5 w-5 cursor-pointer disabled:cursor-default appearance-none rounded-full border-2 border-white checked:border-white transition-all disabled:border-primary-light disabled:opacity-50"
-                                    id={key}
-                                    data-testid={`radio-type-${key}`}
-                                    value={key}
-                                    onChange={onOptionChange}
-                                    checked={movieType === key}
-                                    disabled={!!disabled}
-                                />
-                                <span className="absolute left-[10px] bg-white w-3 h-3 rounded-full opacity-0 peer-checked:opacity-100 transition-opacity duration-200 top-1/2 transform -translate-x-1/2 -translate-y-1/2 peer-disabled:opacity-50"></span>
-                                {name}
-                            </label>
-                        </div>
-                    ))}
+            <div className="flex gap-10">
+                <div>
+                    <h5 className="uppercase">Year</h5>
+                    <SearchMovieSlider
+                        onChange={() => {}}
+                        onChangeEnd={(changes) => {
+                            alert(
+                                'Feature not available! Coming soon once API has been updated.'
+                            );
+                            console.log(
+                                'TODO: implement date range filter once API is updated: ',
+                                changes
+                            );
+                        }}
+                        disabledMessage="Coming soon. API feature still in development"
+                    />
+                </div>
+                <div>
+                    <h5 className="uppercase">Type</h5>
+                    <div className="flex gap-5" data-testid="radio-types">
+                        {[
+                            ['any', 'Any'],
+                            ['movie', 'Movie'],
+                            ['series', 'Series'],
+                            ['episodes', 'Episodes', 'disabled'],
+                        ].map(([key, name, disabled]) => (
+                            <div key={key} className="inline-flex items-center">
+                                <label
+                                    className="relative flex items-center gap-2 cursor-pointer peer-disabled:cursor-default text-white"
+                                    htmlFor={key}
+                                >
+                                    <input
+                                        name="inline-radio-group"
+                                        type="radio"
+                                        className="peer h-5 w-5 cursor-pointer disabled:cursor-default appearance-none rounded-full border-2 border-white checked:border-white transition-all disabled:border-primary-light disabled:opacity-50"
+                                        id={key}
+                                        data-testid={`radio-type-${key}`}
+                                        value={key}
+                                        onChange={onOptionChange}
+                                        checked={movieType === key}
+                                        disabled={!!disabled}
+                                    />
+                                    <span className="absolute left-[10px] bg-white w-3 h-3 rounded-full opacity-0 peer-checked:opacity-100 transition-opacity duration-200 top-1/2 transform -translate-x-1/2 -translate-y-1/2 peer-disabled:opacity-50"></span>
+                                    {name}
+                                </label>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </form>
