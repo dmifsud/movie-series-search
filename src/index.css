@@ -2,28 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
-.custom-scrollbar {
-    overflow-y: auto;
-}
-
-.custom-scrollbar::-webkit-scrollbar {
-    width: 10px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-    background-color: #c2c2c2;
-    /* background: transparent; */
-    border-radius: 0;
-}
-
 /* clears the 'X' from Chrome */
 input[type='search']::-webkit-search-decoration,
 input[type='search']::-webkit-search-cancel-button,
 input[type='search']::-webkit-search-results-button,
 input[type='search']::-webkit-search-results-decoration {
     display: none;
+}
+
+.os-host {
+    --os-scrollbar-size: 10px;
+}
+
+/* TODO: find a way to avoid !important */
+.os-theme-dark {
+    --os-handle-bg: #c2c2c2 !important;
+    --os-handle-bg-hover: #c2c2c2 !important;
+    --os-handle-bg-active: #c2c2c2 !important;
+}
+
+.os-scrollbar {
+    padding: 0 !important;
+}
+
+/* Override the scrollbar thumb to be rectangular and minimal */
+.os-scrollbar-horizontal,
+.os-scrollbar-vertical {
+    background: transparent;
+}
+
+.os-scrollbar-handle {
+    width: 10px;
+    background-color: #c2c2c2;
+    border-radius: 0 !important;
+    opacity: 1 !important;
+}
+
+.os-scrollbar-corner {
+    background-color: transparent;
 }

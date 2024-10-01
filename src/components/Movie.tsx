@@ -62,7 +62,7 @@ function Movie({ movieId }: { movieId?: string }) {
             ) : (
                 <div>
                     <div className="flex flex-col p-8">
-                        <div className="flex flex-row border-b-2 border-solid border-b-primary-light pb-8">
+                        <div className="flex flex-row border-b-2 border-solid border-b-secondary pb-8">
                             <div className="w-[30%] sm:max-w-[180px] md:max-w-[200px] xl:max-w-[320px]">
                                 {showMovie && (
                                     <MovieCard
@@ -117,7 +117,7 @@ function Movie({ movieId }: { movieId?: string }) {
                                 </div>
                             </div>
                         </div>
-                        <div className="border-b-2 border-solid border-b-primary-light py-8">
+                        <div className="border-b-2 border-solid border-b-secondary py-8">
                             <p className="sm:text-lg lg:text-2xl text-primary">
                                 {showMovie && movie.Plot}
                                 {loading && <Skeleton count={4} />}
@@ -139,7 +139,7 @@ function Movie({ movieId }: { movieId?: string }) {
                                         {i !==
                                             (movie?.Ratings?.length ?? 0) -
                                                 1 && (
-                                            <div className="border-r-2 border-solid border-primary-light"></div>
+                                            <div className="border-r-2 border-solid border-secondary"></div>
                                         )}
                                     </Fragment>
                                 ))}

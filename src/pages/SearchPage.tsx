@@ -6,6 +6,7 @@ import Nav from '@components/ui/Nav';
 import useQueryParams from '@hooks/useQueryParams';
 import useMovieWatchlistStore from '@store/movie-watchlist.store';
 import { Link } from 'wouter';
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
 
 function FixedWatchlistLink() {
     const { movies } = useMovieWatchlistStore();
@@ -37,11 +38,31 @@ function SearchPage() {
                 <FixedWatchlistLink />
             </Nav>
             <section className="flex flex-grow justify-stretch overflow-hidden">
-                <div className="box-border w-[30%] min-w-[300px] max-w-[600px] border-r-2 border-r-secondary border-solid custom-scrollbar">
-                    <MovieList />
+                <div className="box-border w-[30%] min-w-[300px] max-w-[600px] border-r-2 border-r-secondary border-solid">
+                    <OverlayScrollbarsComponent
+                        options={{
+                            scrollbars: {
+                                autoHide: 'never',
+                                theme: 'os-theme-dark',
+                            },
+                        }}
+                        className="w-full h-full"
+                    >
+                        <MovieList />
+                    </OverlayScrollbarsComponent>
                 </div>
-                <div className="box-border flex-1 custom-scrollbar">
-                    <Movie movieId={params['imdbid']} />
+                <div className="box-border flex-1">
+                    <OverlayScrollbarsComponent
+                        options={{
+                            scrollbars: {
+                                autoHide: 'never',
+                                theme: 'os-theme-dark',
+                            },
+                        }}
+                        className="w-full h-full"
+                    >
+                        <Movie movieId={params['imdbid']} />
+                    </OverlayScrollbarsComponent>
                 </div>
             </section>
         </div>
