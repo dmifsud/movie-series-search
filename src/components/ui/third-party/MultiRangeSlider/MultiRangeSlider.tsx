@@ -124,11 +124,14 @@ const MultiRangeSlider = ({
                 )}
             />
 
-            <div className={classes.slider}>
-                <div className={classes['slider__track']} />
-                <div ref={range} className={classes['slider__range']} />
-                <div className={classes['slider__left-value']}>{minVal}</div>
-                <div className={classes['slider__right-value']}>{maxVal}</div>
+            <div className={classes['slider-container']}>
+                <div>{minVal}</div>
+
+                <div className={classes.slider}>
+                    <div className={classes['slider__track']} />
+                    <div ref={range} className={classes['slider__range']} />
+                </div>
+                <div>{maxVal}</div>
             </div>
         </div>
     );

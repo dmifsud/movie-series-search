@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 20px;
+    width: 100%;
 }
 
 .container.disabled {
@@ -25,6 +25,7 @@
 .slider__range {
     border-radius: 3px;
     height: 5px;
+    top: 50%;
 }
 
 .slider__track {
@@ -108,7 +109,19 @@
     position: relative;
 }
 
+.slider,
+.container .thumb::-webkit-slider-thumb,
+.container .thumb::-webkit-slider-thumb {
+    top: -2px;
+}
+
 .container.disabled .thumb::-webkit-slider-thumb,
 .container.disabled .thumb::-webkit-slider-thumb {
     cursor: not-allowed;
+}
+
+.slider-container {
+    position: relative;
+    display: flex;
+    gap: 0.5rem;
 }
