@@ -5,6 +5,7 @@ import { useShallow } from 'zustand/shallow';
 import MultiRangeSlider, {
     MultiRangeSliderProps,
 } from './ui/third-party/MultiRangeSlider/MultiRangeSlider';
+import classNames from 'classnames';
 
 function SearchIcon() {
     return (
@@ -73,7 +74,7 @@ function SearchMovie({
 
     const searchMovie = useCallback(searchActions.searchMovie, []);
 
-    useEffect(() => {
+    const triggerSearch = useCallback(() => {
         const searchValue = searchRef.current?.value || '';
         if (searchValue) {
             let type;
@@ -81,15 +82,24 @@ function SearchMovie({
                 type = movieType;
             }
             searchMovie({ s: searchValue, type }, true);
+            return true;
+        } else {
+            return false;
         }
-    }, [movieType, searchMovie]);
+    }, [movieType, searchRef, searchMovie]);
+
+    useEffect(() => {
+        triggerSearch();
+    }, [movieType]);
 
     // FUNCTION HANDLERS
 
     const handleSearch = (e: React.ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const searchValue = searchRef.current?.value || '';
-        searchMovie({ s: searchValue }, true);
+        const triggered = triggerSearch();
+        if (!triggered) {
+            searchMovie({ s: '' }, true);
+        }
     };
 
     const onOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -154,13 +164,16 @@ function SearchMovie({
                         ].map(([key, name, disabled]) => (
                             <div key={key} className="inline-flex items-center">
                                 <label
-                                    className="relative flex items-center gap-2 cursor-pointer peer-disabled:cursor-default text-white"
+                                    className={classNames(
+                                        'relative flex items-center gap-2 cursor-pointer text-white',
+                                        { 'cursor-not-allowed': disabled }
+                                    )}
                                     htmlFor={key}
                                 >
                                     <input
                                         name="inline-radio-group"
                                         type="radio"
-                                        className="peer h-5 w-5 cursor-pointer disabled:cursor-default appearance-none rounded-full border-2 border-white checked:border-white transition-all disabled:border-primary-light disabled:opacity-50"
+                                        className="peer h-5 w-5 cursor-pointer disabled:cursor-not-allowed appearance-none rounded-full border-2 border-white checked:border-white transition-all disabled:border-primary-light disabled:opacity-50"
                                         id={key}
                                         data-testid={`radio-type-${key}`}
                                         value={key}
@@ -168,7 +181,7 @@ function SearchMovie({
                                         checked={movieType === key}
                                         disabled={!!disabled}
                                     />
-                                    <span className="absolute left-[10px] bg-white w-3 h-3 rounded-full opacity-0 peer-checked:opacity-100 transition-opacity duration-200 top-1/2 transform -translate-x-1/2 -translate-y-1/2 peer-disabled:opacity-50"></span>
+                                    <span className="absolute left-[10px] bg-white w-3 h-3 rounded-full opacity-0 peer-checked:opacity-100 peer-disabled:cursor-not-allowed transition-opacity duration-200 top-1/2 transform -translate-x-1/2 -translate-y-1/2 peer-disabled:opacity-50"></span>
                                     {name}
                                 </label>
                             </div>
