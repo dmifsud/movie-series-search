@@ -5,7 +5,15 @@ import path from 'path';
 // https://vitejs.dev/config/
 export default ({ mode }: { mode: string }) => {
     const env = loadEnv(mode, process.cwd());
+
+    const productionConfig: { base?: string } = {};
+    if (mode === 'production') {
+        productionConfig['base'] =
+            'https://dmifsud.github.io/movie-series-search';
+    }
+
     return defineConfig({
+        ...productionConfig,
         server: {
             port: Number(env.VITE_PORT),
         },
